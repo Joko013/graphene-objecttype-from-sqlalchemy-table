@@ -1,0 +1,17 @@
+language: python
+python:
+- 3.8
+- 3.7
+- 3.6
+install: pip install -r requirements_dev.txt
+script: pytest
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: Joko013
+  password:
+    secure: ZS2pTSQ7qpNe5T8MgFk8NeodiuPzkFWSpxEKWXHhprbjaRoWSLam9GNt4y/eveDJ8TyfzeWLAoWtDLOM5M/tNw2wnLE+fJKRtR/GcqrVyd+ushhvaDVv6CPK47YTHcdGcl1gwJqFkIWc+kYnuG1Fwwl0ln9TbyX8Qw6qgP1HtkSEMsnMQvIHvRVKyAIR19AXYhmG/91zIQWt88F4t4VyQ5VQW2zpqd9MYl2Xa/NeZ+YZo7WhcAY8PQEXBprZuU+dBVM85N+JNVtVYyLclsvEEybhI7PCjeDASK2Zqli9a8WImsBJUSyUGQ8FBgrHdfYYNCF2kWltwale8ykEPxTdc0YOjemr6tEj6uTQ/btMCLT6/PzEPFxlLNcFQPYk1bhmD4wONCABRnGLl9QyEhlAxaxjaAlcMbhBsDtGyOs+B/ON5SiLZ0K0JnSmg9ux5u2x7Wd3epuOIAMYZPrhhGkM+G7RQcCY1hDjWpVVYw23shrqAH3jZvlzDwm32fzIT8kCCTGvR6QsvpuDMks4KAzR2BRIjwIzVqbTWW/uA6UUCLclgfiuHH1VtWQdDwVMn1PXgCbvrGbyUJse6WnWixKmWQmcQMv/yUe/JWje2BK2Tddv3/yRXqA6898ngfFOxOeVd9p1UkeTOi/N3LTjEVhXPXI4ntafdzA7WTy57+mnVGs=
+  on:
+    branch: master
+    repo: Joko013/graphene-objecttype-from-sqlalchemy-table
+    python: 3.8
