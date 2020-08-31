@@ -1,30 +1,19 @@
 
 import pytest
 from graphene.types.enum import Enum, EnumMeta
-from sqlalchemy import types, Column
+from sqlalchemy import types
 
-from graphene_objecttype_from_sqlalchemy_table.enum import is_enum, get_enum_from_column, get_enum_resolver
-
-
-@pytest.mark.parametrize(
-    'col_type, result',
-    [
-        (types.Enum('foo', 'bar', name='test_enum'), True),
-        (types.String, False),
-    ]
-)
-def test_is_enum(col_type, result):
-    column = Column(name='test', type_=col_type)
-    assert is_enum(column) == result
+from graphene_objecttype_from_sqlalchemy_table.enum import get_enum_from_sa_enum, get_enum_resolver, enum_registry
 
 
-def test_get_enum_from_column():
+def test_get_enum_from_sa_enum():
     enum = types.Enum('foo', 'bar', name='test_enum')
-    column = Column('test', enum)
-    result = get_enum_from_column(column)
+    result = get_enum_from_sa_enum(sa_enum=enum)
+    result_ = get_enum_from_sa_enum(sa_enum=enum)
     assert (
         isinstance(result, EnumMeta) and
-        all(getattr(result, e, None) is not None for e in enum.enums)
+        all(getattr(result, e, None) is not None for e in enum.enums) and
+        result is result_ is enum_registry[enum.name]  # test that duplicate types are not being created
     )
 
 

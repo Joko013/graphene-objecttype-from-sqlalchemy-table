@@ -34,7 +34,7 @@ def test_convert_type_primary_key():
 
 def test_convert_type_enum(mocker):
     graphene_enum = Enum("test", [("one", 1), ("two", 2)])
-    mocker.patch("graphene_objecttype_from_sqlalchemy_table.convert.get_enum_from_column", return_value=graphene_enum)
+    mocker.patch("graphene_objecttype_from_sqlalchemy_table.convert.get_enum_from_sa_enum", return_value=graphene_enum)
 
     enum = types.Enum("one", "two", name="test_enum")
     column = Column('test', enum)
