@@ -2,20 +2,25 @@
 from typing import Callable
 
 from graphene.types.enum import Enum, EnumMeta
-from sqlalchemy import Column
+from sqlalchemy import types
 
 
-def is_enum(column: Column) -> bool:
-    """Enums are interpreted as VARCHAR when used as Column types in a Table but have `enums` attribute."""
-    enums = getattr(column.type, "enums", None)
-    return bool(enums)
+enum_registry = dict()
 
 
-def get_enum_from_column(column: Column) -> EnumMeta:
-    """Create Graphene Enum type from enumerated SQLAlchemy column."""
-    name = column.type.name
-    values = [(value, i) for i, value in enumerate(column.type.enums, start=1)]
-    return Enum(name, values)
+def get_enum_from_sa_enum(sa_enum: types.Enum) -> EnumMeta:
+    """Convert SQLAlchemy enum to Graphene enum."""
+    name = sa_enum.name
+
+    if name in enum_registry:
+        # if the enum is reused for another field, use the existing graphene enum to avoid duplicate types
+        enum = enum_registry[name]
+    else:
+        values = [(value, i) for i, value in enumerate(sa_enum.enums, start=1)]
+        enum = Enum(name, values)
+        enum_registry[name] = enum
+
+    return enum
 
 
 def get_enum_resolver(field_name: str, enum: EnumMeta) -> Callable:

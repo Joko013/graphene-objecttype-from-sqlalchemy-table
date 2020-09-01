@@ -7,7 +7,7 @@ from graphene.types import Boolean, Date, DateTime, Float, ID, Int, JSONString, 
 from graphene.types.enum import EnumMeta
 from sqlalchemy import types, Column
 
-from .enum import get_enum_from_column, is_enum, get_enum_resolver
+from .enum import get_enum_from_sa_enum, get_enum_resolver
 
 
 @singledispatch
@@ -29,11 +29,12 @@ def convert_column_type(type_, column: Column):
 
 @convert_column_type.register(types.String)
 def _to_string_or_enum(type_, column):
-    if is_enum(column):
-        # enums are interpreted as varchar
-        return get_enum_from_column(column=column)
-    else:
-        return String
+    return String
+
+
+@convert_column_type.register(types.Enum)
+def _to_enum(type_, column):
+    return get_enum_from_sa_enum(sa_enum=column.type)
 
 
 @convert_column_type.register(types.DateTime)

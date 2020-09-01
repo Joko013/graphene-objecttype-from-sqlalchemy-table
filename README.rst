@@ -7,7 +7,7 @@ graphene-objecttype-from-sqlalchemy-table
         :target: https://pypi.python.org/pypi/graphene_objecttype_from_sqlalchemy_table
 
 .. image:: https://travis-ci.com/Joko013/graphene-objecttype-from-sqlalchemy-table.svg?token=FHRZRddxayyoV31ugrQS&branch=master
-    :target: https://travis-ci.com/Joko013/graphene-objecttype-from-sqlalchemy-table
+    :target: https://travis-ci.org/Joko013/graphene-objecttype-from-sqlalchemy-table
 
 
 
